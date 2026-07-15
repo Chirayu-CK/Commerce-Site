@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopPulse AI - Smart Shopping Assistant</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#f5f7fb;
+color:#222;
+}
+
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+background:white;
+padding:18px 8%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 5px 20px rgba(0,0,0,.08);
+z-index:100;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+color:#0066ff;
+}
+
+nav a{
+text-decoration:none;
+margin-left:25px;
+color:#333;
+font-weight:500;
+transition:.3s;
+}
+
+nav a:hover{
+color:#0066ff;
+}
+
+.hero{
+
+padding:140px 8% 80px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+align-items:center;
+gap:50px;
+background:linear-gradient(135deg,#0f62fe,#42be65);
+color:white;
+}
+
+.hero h1{
+font-size:52px;
+line-height:1.2;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:18px;
+line-height:1.8;
+margin-bottom:35px;
+}
+
+.btn{
+display:inline-block;
+padding:15px 35px;
+background:white;
+color:#0f62fe;
+font-weight:600;
+border-radius:40px;
+text-decoration:none;
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-5px);
+}
+
+.hero img{
+width:100%;
+border-radius:20px;
+}
+
+.search-box{
+margin-top:30px;
+display:flex;
+background:white;
+padding:10px;
+border-radius:50px;
+}
+
+.search-box input{
+flex:1;
+border:none;
+outline:none;
+padding:10px 20px;
+font-size:16px;
+}
+
+.search-box button{
+padding:12px 28px;
+border:none;
+border-radius:30px;
+background:#0f62fe;
+color:white;
+cursor:pointer;
+}
+
+section{
+padding:80px 8%;
+}
+
+.title{
+text-align:center;
+font-size:40px;
+margin-bottom:50px;
+color:#111;
+}
+
+.cards{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.4s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.card-content{
+padding:20px;
+}
+
+.price{
+font-size:22px;
+color:#0f62fe;
+font-weight:700;
+margin:10px 0;
+}
+
+.buy{
+margin-top:15px;
+width:100%;
+padding:12px;
+background:#0f62fe;
+border:none;
+color:white;
+border-radius:10px;
+cursor:pointer;
+}
+
+.features{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:25px;
+}
+
+.feature{
+background:white;
+padding:35px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.feature h3{
+margin:20px 0;
+color:#0f62fe;
+}
+
+.testimonials{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+}
+
+.review{
+background:white;
+padding:30px;
+border-radius:18px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.contact{
+background:#0f62fe;
+color:white;
+border-radius:20px;
+padding:50px;
+text-align:center;
+}
+
+.contact h2{
+font-size:38px;
+margin-bottom:20px;
+}
+
+.contact input{
+width:100%;
+padding:15px;
+margin:12px 0;
+border:none;
+border-radius:10px;
+}
+
+.contact textarea{
+width:100%;
+padding:15px;
+height:150px;
+border:none;
+border-radius:10px;
+margin:12px 0;
+}
+
+.contact button{
+padding:15px 35px;
+background:#42be65;
+border:none;
+color:white;
+border-radius:10px;
+font-size:17px;
+cursor:pointer;
+}
+
+footer{
+background:#111;
+color:white;
+padding:25px;
+text-align:center;
+margin-top:50px;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:38px;
+}
+
+nav{
+display:none;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+<script>
+  window.wxOConfiguration = {
+    orchestrationID: "6a41f00b3df74c579029bd1f710a3255_f87895c9-4154-4e89-adb7-1be817cde257",
+    hostURL: "https://au-syd.watson-orchestrate.cloud.ibm.com",
+    rootElementID: "root",
+    deploymentPlatform: "ibmcloud",
+    crn: "crn:v1:bluemix:public:watsonx-orchestrate:au-syd:a/6a41f00b3df74c579029bd1f710a3255:f87895c9-4154-4e89-adb7-1be817cde257::",
+    chatOptions: {
+        agentId: "60112b2c-9c54-4551-a4c0-36fe123af4a6", 
+    }
+  };
+  setTimeout(function () {
+    const script = document.createElement('script');
+    script.src = `${window.wxOConfiguration.hostURL}/wxochat/wxoLoader.js?embed=true`;
+    script.addEventListener('load', function () {
+        wxoLoader.init();
+    });
+    document.head.appendChild(script);
+  }, 0);                     
+</script>
+
+<header>
+
+<div class="logo">🛍 ShopPulse AI</div>
+
+<nav>
+
+<a href="#">Home</a>
+<a href="#products">Products</a>
+<a href="#features">Features</a>
+<a href="#reviews">Reviews</a>
+<a href="#contact">Contact</a>
+
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<div>
+
+<h1>Shop Smarter with AI</h1>
+
+<p>
+Discover the best products, compare prices, analyze reviews,
+track price drops, and get personalized shopping recommendations—
+all powered by AI.
+</p>
+
+<div class="search-box">
+
+<input type="text" placeholder="Search for laptops, phones, shoes...">
+
+<button onclick="searchProduct()">Search</button>
+
+</div>
+
+<br>
+
+<a href="#products" class="btn">Explore Products</a>
+
+</div>
+
+<div>
+
+<img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200" alt="shopping">
+
+</div>
+
+</section>
+
+<section id="products">
+
+<h2 class="title">Featured Products</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600">
+
+<div class="card-content">
+
+<h3>Premium Smartphone</h3>
+
+<div class="price">₹59,999</div>
+
+<p>AI Camera • OLED Display • Fast Charging</p>
+
+<button class="buy">View Details</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600">
+
+<div class="card-content">
+
+<h3>Ultra Laptop</h3>
+
+<div class="price">₹82,999</div>
+
+<p>Intel Core Ultra • 16GB RAM • SSD</p>
+
+<button class="buy">View Details</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600">
+
+<div class="card-content">
+
+<h3>Wireless Headphones</h3>
+
+<div class="price">₹6,499</div>
+
+<p>ANC • 40Hr Battery • Bluetooth 5.3</p>
+
+<button class="buy">View Details</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="features">
+
+<h2 class="title">Why ShopPulse AI?</h2>
+
+<div class="features">
+
+<div class="feature">
+
+<h3>🔍 Smart Search</h3>
+
+<p>Search using text, voice, or images.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>💰 Price Comparison</h3>
+
+<p>Compare products across multiple platforms.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>⭐ Review Intelligence</h3>
+
+<p>Detect fake reviews and summarize customer opinions.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>📈 Price Prediction</h3>
+
+<p>Know whether to buy now or wait for a better deal.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>🌱 Sustainability</h3>
+
+<p>Discover eco-friendly alternatives and sustainability scores.</p>
+
+</div>
+
+<div class="feature">
+
+<h3>🤖 Personalized AI</h3>
+
+<p>Recommendations based on your budget and preferences.</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="reviews">
+
+<h2 class="title">Customer Reviews</h2>
+
+<div class="testimonials">
+
+<div class="review">
+
+★★★★★
+
+<p>
+
+"ShopPulse AI helped me save ₹5,000 on my laptop purchase.
+The comparison dashboard was amazing."
+
+</p>
+
+<b>- Rahul</b>
+
+</div>
+
+<div class="review">
+
+★★★★★
+
+<p>
+
+"I loved the fake review detection feature.
+Now I buy with confidence."
+
+</p>
+
+<b>- Priya</b>
+
+</div>
+
+<div class="review">
+
+★★★★★
+
+<p>
+
+"Beautiful interface and intelligent recommendations.
+Exactly what online shopping needed."
+
+</p>
+
+<b>- Akash</b>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<div class="contact">
+
+<h2>Let's Build Smarter Shopping</h2>
+
+<input placeholder="Your Name">
+
+<input placeholder="Email Address">
+
+<textarea placeholder="Message"></textarea>
+
+<button onclick="sendMessage()">Send Message</button>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 ShopPulse AI • Intelligent Shopping Assistant • Powered by AI
+
+</footer>
+
+<script>
+
+function searchProduct(){
+
+alert("🔍 AI Search functionality will connect with your backend.");
+
+}
+
+function sendMessage(){
+
+alert("✅ Thank you! We'll get back to you soon.");
+
+}
+
+</script>
+
+</body>
+</html>
